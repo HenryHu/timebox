@@ -441,6 +441,15 @@ def text(ctx, text, delay, repeat, progress):
             ctx.obj['dev'].recv_response()
             text_round = text_round[int(progress):]
             time.sleep(float(delay))
+
+@cli.command(short_help='desk clock')
+@click.pass_context
+def deskclock(ctx):
+    while True:
+        local_time = time.localtime()
+        ctx.obj['dev'].send(conv_image(process_image(text_to_image(" %2d:%2d" % (local_time.tm_hour, local_time.tm_min)))))
+        ctx.obj['dev'].recv_response()
+        time.sleep(1)
     
     
 @cli.command(short_help='display_animation')
