@@ -39,8 +39,10 @@ class Timebox:
             print("response: %02x" % value[0], end=' ')
         while value[0] != 2:
             value = self.sock.recv(1)
-            print("%02x" % value[0], end=' ')
-        print()
+            if self.debug:
+                print("%02x" % value[0], end=' ')
+        if self.debug:
+            print()
 
 
 VIEWTYPES = {
