@@ -30,6 +30,18 @@ class Timebox:
     def send_raw(self, bts):
         self.sock.send(bts)
 
+    def recv_hello(self):
+        hello = self.sock.recv(8)
+
+    def recv_response(self):
+        value = self.sock.recv(1)
+        if self.debug:
+            print("response: %02x" % value[0], end=' ')
+        while value[0] != 2:
+            value = self.sock.recv(1)
+            print("%02x" % value[0], end=' ')
+        print()
+
 
 VIEWTYPES = {
             "clock": 0x00,
@@ -291,6 +303,7 @@ def prepare_animation(frames, delay=0):
 @click.pass_context
 def image(ctx, file):
     ctx.obj['dev'].send(conv_image(load_image(file,scale=Image.BICUBIC)))
+    ctx.obj['dev'].recv_response()
     
     
 @cli.command(short_help='display_animation')
@@ -356,6 +369,7 @@ def raw(ctx, hexbytes, _mask):
 def connect(address):
     dev = Timebox(address)
     dev.connect()
+    dev.recv_hello()
 
     return dev
 
