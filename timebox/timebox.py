@@ -334,11 +334,12 @@ char_glyphs = {
     '{': ((0, 1, 1), (0, 1, 0), (1, 1, 0), (0, 1, 0), (0, 1, 1)),
     '}': ((1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 1, 0), (1, 1, 0)),
     ' ': ((0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)),
+    'blank': ((1, 1, 1), (1, 1, 1), (1, 1, 1), (1, 1, 1), (1, 1, 1)),
 }
 
 
 def put_char(img, char, pos):
-    glyph = char_glyphs[char]
+    glyph = char_glyphs.get(char, char_glyphs['blank'])
     for x in range(3):
         for y in range(5):
             img.putpixel((pos[0] + x, pos[1] + y), (int(glyph[y][x] * 255), int(glyph[y][x] * 255), int(glyph[y][x] * 255), 255))
