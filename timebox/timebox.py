@@ -25,7 +25,7 @@ class Timebox:
     def send(self, package):
         if(self.debug):
             print([hex(b)[2:].zfill(2) for b in package])
-        self.sock.send(str(bytearray(package)))
+        self.sock.send(bytes(bytearray(package)))
 
     def send_raw(self, bts):
         self.sock.send(bts)
@@ -332,11 +332,11 @@ def fmradio(ctx, state, frequency):
             frac=int(frac*100)
             whole=(int(whole))
             f=[whole,frac]
-            print f
-            print mask(f)
+            print(f)
+            print(mask(f))
             ck1,ck2 = checksum(sum(head)+sum(f))
-            print [ck1,ck2]
-            print mask([ck1,ck2])
+            print([ck1,ck2])
+            print(mask([ck1,ck2]))
             ctx.obj['dev'].send([0x01]+head+mask(f)+mask([ck1,ck2])+[0x02])
     else:
         ctx.obj['dev'].send([0x01]+mask([0x04,0x00,0x05,0x00,0x09,0x00])+[0x02])
