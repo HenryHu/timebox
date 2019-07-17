@@ -426,11 +426,21 @@ def image(ctx, file):
 
 
 @cli.command(short_help='display text')
-@click.argument('text', nargs=1)
+@click.argument('text', nargs=1, default='')
+@click.option('--delay', nargs=1, default=1.0)
+@click.option('--repeat', nargs=1, default=1)
+@click.option('--progress', nargs=1, default=1)
 @click.pass_context
-def text(ctx, text):
-    ctx.obj['dev'].send(conv_image(process_image(text_to_image(text))))
-    ctx.obj['dev'].recv_response()
+def text(ctx, text, delay, repeat, progress):
+    if text == '':
+        text = input()
+    for round in range(int(repeat)):
+        text_round = text
+        while len(text_round) > 0:
+            ctx.obj['dev'].send(conv_image(process_image(text_to_image(text_round[:6]))))
+            ctx.obj['dev'].recv_response()
+            text_round = text_round[int(progress):]
+            time.sleep(float(delay))
     
     
 @cli.command(short_help='display_animation')
