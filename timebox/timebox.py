@@ -353,6 +353,7 @@ def fmradio(ctx, state, frequency):
             ctx.obj['dev'].send([0x01]+head+mask(f)+mask([ck1,ck2])+[0x02])
     else:
         ctx.obj['dev'].send([0x01]+mask([0x04,0x00,0x05,0x00,0x09,0x00])+[0x02])
+    ctx.obj['dev'].recv_response()
 
 
 
