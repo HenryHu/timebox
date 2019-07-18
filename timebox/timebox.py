@@ -445,11 +445,17 @@ def text(ctx, text, delay, repeat, progress):
 @cli.command(short_help='desk clock')
 @click.pass_context
 def deskclock(ctx):
+    show_time = True
     while True:
         local_time = time.localtime()
-        ctx.obj['dev'].send(conv_image(process_image(text_to_image(" %2d:%2d" % (local_time.tm_hour, local_time.tm_min)))))
+        if show_time:
+            msg = " %02d:%02d" % (local_time.tm_hour, local_time.tm_min)
+        else:
+            msg = " %2d.%2d" % (local_time.tm_mon, local_time.tm_mday)
+        ctx.obj['dev'].send(conv_image(process_image(text_to_image(msg))))
         ctx.obj['dev'].recv_response()
-        time.sleep(1)
+        show_time = not show_time
+        time.sleep(15)
     
     
 @cli.command(short_help='display_animation')
