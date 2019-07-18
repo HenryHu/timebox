@@ -342,7 +342,7 @@ def put_char(img, char, pos):
     glyph = char_glyphs.get(char, char_glyphs['blank'])
     for x in range(3):
         for y in range(5):
-            img.putpixel((pos[0] + x, pos[1] + y), (int(glyph[y][x] * 255), int(glyph[y][x] * 255), int(glyph[y][x] * 255), 255))
+            img.putpixel((pos[0] + x, pos[1] + y), (int(glyph[y][x] * 64), int(glyph[y][x] * 0), int(glyph[y][x] * 0), 255))
 
 
 def text_to_image(text):
